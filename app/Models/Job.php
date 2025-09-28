@@ -9,6 +9,7 @@ use HasFactory;
 // We need to tell it to use our 'job_listings' table instead.
 protected $table = 'job_listings';
 
+protected $guarded = [];
 // in app/Models/Job.php
 public function employer()
 {

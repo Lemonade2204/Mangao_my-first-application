@@ -14,12 +14,16 @@
         <ul class="flex space-x-6">
           <li><x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link></li>
           <li><x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link></li>
+          <li><x-nav-link href="/jobs/create" :active="request()->is('/jobs/create')">Create jobs</x-nav-link></li>
+
+
         </ul>
       </div>
     </nav>
 
     <!-- Page Content -->
     <main class="container mx-auto px-6 py-10">
+      
         {{ $slot }}
       
 

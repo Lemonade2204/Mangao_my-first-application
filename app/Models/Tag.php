@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
 use HasFactory;
+protected $fillable = [];
 public function jobs()
 {
 return $this->belongsToMany(\App\Models\Job::class, relatedPivotKey:
