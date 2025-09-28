@@ -14,9 +14,7 @@ public function up(): void
 {
 Schema::create('job_listing_tag', function (Blueprint $table) {
 $table->id();
-$table->foreignIdFor(\App\Models\Job::class,
-'job_listing_id')->constrained()->cascadeOnDelete();
-$table->foreignIdFor(\App\Models\Tag::class)->constrained()->cascadeOnDelete();
+$table->string('name')->unique();
 $table->timestamps();
 });
 }
