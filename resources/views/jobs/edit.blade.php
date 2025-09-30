@@ -55,12 +55,13 @@ text-gray-900">Cancel</button>
 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline
 focus-visible:outline-2 focus-visible:outline-offset-2
 focus-visible:outline-indigo-600">Save</button>
+
 </div>
 </form>
-<!-- Hidden Delete Form -->
+<!-- Add this hidden form after the main edit form -->
 <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="hidden">
-    @csrf
-    @method('DELETE')
+@csrf
+@method('DELETE')
 </form>
 
 </div>

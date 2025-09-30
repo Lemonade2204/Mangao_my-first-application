@@ -16,10 +16,13 @@ public function index()
 }
 
 public function create() {
-    return view('jobs.create', [
-        'employees' => Employer::all(),
-        'tags' => Tag::all()
-    ]);
+    $employers = Employer::all();
+        $tags = Tag::all();
+
+        return view('jobs.create', [
+            'employers' => $employers,
+            'tags' => $tags,
+        ]);
 }
 
 public function show(Job $job) {
@@ -29,18 +32,40 @@ public function show(Job $job) {
 }
 public function store() 
 {
-    request()->validate([
-        'title' => ['required', 'min:3'],
-        'salary' => ['required']
-    ]);
-    \App\Models\Job::create([
-        'title' => request('title'),
-        'salary' => request('salary'),
-        'employer_id' => 1
-    ]);
+$validated = request()->validate([
+            'title'       => 'required|string|min:3',
+            'salary'      => 'required|string',
+            'employer_id' => 'required|exists:employers,id',
+            'tags'        => 'array',
+            'tags.*'      => 'exists:tags,id',
+        ]);
+
+        // Only fill the Job fields (exclude tags)
+        $job = Job::create([
+            'title'       => $validated['title'],
+            'salary'      => $validated['salary'],
+            'employer_id' => $validated['employer_id'],
+        ]);
+
+        // Attach tags if selected
+        if (!empty($validated['tags'])) {
+            $job->tags()->attach($validated['tags']);
+        }
+
+        return redirect('/jobs');
+
+    // request()->validate([
+    //     'title' => ['required', 'min:3'],
+    //     'salary' => ['required']
+    // ]);
+    // \App\Models\Job::create([
+    //     'title' => request('title'),
+    //     'salary' => request('salary'),
+    //     'employer_id' => 1
+    // ]);
 
 
-    return redirect('/jobs');
+    // return redirect('/jobs');
 }
 
 public function edit(Job $job) 

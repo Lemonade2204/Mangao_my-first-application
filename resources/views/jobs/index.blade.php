@@ -1,36 +1,43 @@
 <x-layout>
-<x-slot:heading>
-Jobs Page
-</x-slot:heading>
-<!-- inside jobs.blade.php -->
-<ul>
-@foreach ($jobs as $job)
-<li>
-<!-- in jobs.blade.php -->
-<div>
-<a href="/jobs/{{ $job['id'] }}" class="block px-4 py-6 border border-gray-200
-rounded-lg">
-<div class="font-bold text-blue-500 text-sm">{{ $job->employer->name }}</div>
-<div>
-<strong class="text-laracasts">{{ $job['title'] }}:</strong> Pays {{ $job['salary'] }}
-per year.
-</div>
-<div class="px-4 py-4">
-@foreach($job->tags as $tag)
-<span class="bg-gray-200 text-gray-700 text-xs font-semibold mr-2 px-2.5 py-0.5
-rounded-full">{{ $tag->name }}</span>
-@endforeach
-</div>
-</a>
-</div>
+    <x-slot:heading>
+        Jobs Page
+    </x-slot:heading>
 
+    <!-- Vertical Job Cards -->
+    <div class="space-y-6 mt-8">
+        @foreach ($jobs as $job)
+            <a href="/jobs/{{ $job['id'] }}" 
+               class="block bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-6 flex flex-col h-full">
+                
+                <!-- Employer -->
+                <div class="text-sm font-medium text-indigo-600 mb-2">
+                    {{ $job->employer->name }}
+                </div>
 
-</li>
-@endforeach
-<!-- in jobs.blade.php -->
-<div class="mt-6">
-{{ $jobs->links() }}
-</div>
+                <!-- Title -->
+                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                    {{ $job['title'] }}
+                </h2>
 
-</ul>
+                <!-- Salary -->
+                <p class="text-gray-600 mb-4">
+                    Pays <span class="font-semibold text-gray-900">{{ $job['salary'] }}</span> per year
+                </p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2 mt-auto">
+                    @foreach($job->tags as $tag)
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">
+                            {{ $tag->name }}
+                        </span>
+                    @endforeach
+                </div>
+            </a>
+        @endforeach
+    </div>
+
+    <!-- Pagination pinned at bottom -->
+    <div class="mt-12 flex justify-center pb-6">
+        {{ $jobs->links() }}
+    </div>
 </x-layout>
