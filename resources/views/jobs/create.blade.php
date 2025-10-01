@@ -19,24 +19,30 @@
                         <div class="sm:col-span-4">
                             <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
                             <div class="mt-2">
-                                <input type="text" name="title" id="title"
+                                <input type="text" name="title" id="title" value="{{ old('title') }}"
                                     class="block w-full rounded-md border-0 bg-gray-50 py-1.5 px-3 text-gray-900 shadow-sm
                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="Shift Leader" required>
+                                    placeholder="Shift Leader">
                             </div>
+                            @error('title')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Salary -->
                         <div class="sm:col-span-4">
                             <label for="salary" class="block text-sm font-medium leading-6 text-gray-900">Salary</label>
                             <div class="mt-2">
-                                <input type="text" name="salary" id="salary"
+                                <input type="text" name="salary" id="salary" value="{{ old('salary') }}"
                                     class="block w-full rounded-md border-0 bg-gray-50 py-1.5 px-3 text-gray-900 shadow-sm
                                     ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
                                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="$50,000 Per Year" required>
+                                    placeholder="$50,000 Per Year">
                             </div>
+                            @error('salary')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Employer -->
@@ -46,13 +52,18 @@
                                 <select name="employer_id" id="employer_id"
                                     class="block w-full rounded-md border-0 bg-gray-50 py-1.5 px-3 text-gray-900 shadow-sm
                                     ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600
-                                    sm:text-sm sm:leading-6" required>
+                                    sm:text-sm sm:leading-6">
                                     <option value="">Select Employer</option>
                                     @foreach($employers as $employer)
-                                        <option value="{{ $employer->id }}">{{ $employer->name }}</option>
+                                        <option value="{{ $employer->id }}" {{ old('employer_id') == $employer->id ? 'selected' : '' }}>
+                                            {{ $employer->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
+                            @error('employer_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Tags (checkboxes) -->
@@ -62,12 +73,16 @@
                                 @foreach($tags as $tag)
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                            {{ (is_array(old('tags')) && in_array($tag->id, old('tags'))) ? 'checked' : '' }}
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                         <span class="text-sm text-gray-700">{{ $tag->name }}</span>
                                     </label>
                                 @endforeach
                             </div>
                             <p class="mt-1 text-xs text-gray-500">Select one or more tags for this job.</p>
+                            @error('tags')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                     </div>
@@ -85,4 +100,3 @@
         </form>
     </div>
 </x-layout>
-

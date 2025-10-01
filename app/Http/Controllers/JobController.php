@@ -70,7 +70,9 @@ $validated = request()->validate([
 
 public function edit(Job $job) 
 {
-    return view('jobs.edit', ['job' => $job]);
+    return view('jobs.edit', ['job' => $job,
+                             'employers' => Employer::all(),
+                            'tags' => Tag::all()]);
 }
 public function update(Job $job) 
 {
